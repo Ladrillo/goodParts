@@ -72,11 +72,38 @@ var square = function (x) {
     return x * x;
 };
 
-var composeu = function (binFun1, binFun2) {
+var composeu = function (unFun1, unFun2) {
     return function (x) {
-        return binFun2(binFun1(x));
+        return unFun2(unFun1(x));
     };
 };
 
 console.log(composeu(double, square)(3));
 console.log(composeu(square, double)(3));
+
+var composeb = function (binFun1, binFun2) {
+    return function (x, y, z) {
+        return binFun2(binFun1(x, y), z);
+    };
+};
+
+console.log(composeb(add, mul)(2, 3, 5));
+
+var once = (function () {
+    var counter = 3;
+    return function (fun) {
+        return function (x, y) {
+            if (counter > 0) {
+                counter -= 1;
+                return fun(x, y);
+            }
+            return "Error!!";
+        };
+    };
+} ());
+
+console.log("once:");
+console.log(once(add)(1, 2));
+console.log(once(add)(10, 20));
+console.log(once(add)(100, 200));
+console.log(once(add)(10, 20));
