@@ -54,3 +54,29 @@ var demethodize = function (method) {
 };
 
 console.log(demethodize(Number.prototype.add)(5, 6));
+
+var twice = function (binaryFun) {
+    return function (x) {
+        return binaryFun(x, x);
+    };
+};
+
+console.log(twice(add)(11));
+console.log(twice(mul)(11));
+
+var double = function (x) {
+    return x * 2;
+};
+
+var square = function (x) {
+    return x * x;
+};
+
+var composeu = function (binFun1, binFun2) {
+    return function (x) {
+        return binFun2(binFun1(x));
+    };
+};
+
+console.log(composeu(double, square)(3));
+console.log(composeu(square, double)(3));
